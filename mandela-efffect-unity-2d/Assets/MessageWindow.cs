@@ -31,6 +31,10 @@ public class MessageWindow : MonoBehaviour
     public Button TouchPad;
     public GameObject CursorMarker;
 
+    // Flase
+
+    public Animator flashAnim;
+
     // 오디오 소스들
     public AudioSource BGMPlayer;
     public AudioSource SEPlayer;
@@ -509,6 +513,13 @@ public class MessageWindow : MonoBehaviour
 
             return true;
 
+        }
+
+        if(parts[0] == "flash")
+        {
+            flashAnim.SetTrigger("flash");
+            StartCoroutine(PauseForSeconds(1.0f));
+            return false;
         }
 
         if (parts[0] == "ending")// 엔딩
