@@ -32,7 +32,7 @@ public class MessageWindow : MonoBehaviour
     public GameObject CursorMarker;
 
     // 오디오 소스들
-    private AudioSource audioSource;
+    public AudioSource BGMPlayer;
     public AudioSource SEPlayer;
 
     // 캐릭터 이미지들과 위치 좌표들
@@ -92,7 +92,6 @@ public class MessageWindow : MonoBehaviour
 
         // 패널 클릭 이벤트 리스너 설정
         // TouchPad.onClick.AddListener(HandleClick);
-        audioSource = gameObject.AddComponent<AudioSource>();
 
         // 만약 현재 인덱스가 있다면 해당 위치로 이동
 
@@ -268,7 +267,7 @@ public class MessageWindow : MonoBehaviour
 
 
     public bool wasnone = false;
-
+    string beforeBGM;
     // 메시지 표시 코루틴
     private IEnumerator DisplayMessageCoroutine(MessageData data)
     {
@@ -354,6 +353,29 @@ public class MessageWindow : MonoBehaviour
             SEPlayer.PlayOneShot(clip);
         }
 
+        // BGM 변경
+
+        if (beforeBGM != data.BGM)
+        {
+            if (data.BGM.ToLower() == "stop")
+            {
+                BGMPlayer.Stop();
+            }
+            else
+            {
+                AudioClip bgm = Resources.Load<AudioClip>($"BGM/{data.BGM}");
+                if (bgm)
+                {
+                    BGMPlayer.clip = bgm;
+                    BGMPlayer.Play();
+                    beforeBGM = data.BGM;
+                }
+                else
+                {
+                    BGMPlayer.Stop();
+                }
+            }
+        }
 
         // 캐릭터 이미지 업데이트
         for (int i = 0; i < characterImages.Length; i++)
