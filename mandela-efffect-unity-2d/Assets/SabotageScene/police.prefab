@@ -54,6 +54,10 @@ MonoBehaviour:
   speed: 5
   movePoses: []
   spriteTrans: {fileID: 8483124390144477920}
+  sprite:
+  - {fileID: 21300000, guid: c11e00f8da8e42a4da4c67a31b3998d3, type: 3}
+  - {fileID: 21300000, guid: e56e4f3e9a56ada44a22ac2f0d56aa8c, type: 3}
+  - {fileID: 21300000, guid: 98462f990bb6dc8419ad91e6172e2769, type: 3}
 --- !u!58 &2915208570059190468
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -86,7 +90,7 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 2.52, y: 0}
+  m_Offset: {x: 2.64, y: -0.3}
   serializedVersion: 2
   m_Radius: 1.61
 --- !u!1 &1657430622241476906
@@ -115,7 +119,7 @@ Transform:
   m_GameObject: {fileID: 1657430622241476906}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.2, y: 0, z: 0}
+  m_LocalPosition: {x: 2.33, y: -0.35, z: 0}
   m_LocalScale: {x: 0.83, y: 0.65, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -339,9 +343,9 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: ac44cd7300a2f4e4c8dc044d48a49e20, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c11e00f8da8e42a4da4c67a31b3998d3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1, y: 1}

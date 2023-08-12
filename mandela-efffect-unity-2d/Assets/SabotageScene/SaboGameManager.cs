@@ -9,6 +9,7 @@ public class SaboGameManager : MonoBehaviour
     public Transform playerRespawn;
     public List<BombInsertableObj> insertedObj = new List<BombInsertableObj>();
     public Sprite[] sprite;
+    public GameObject arrowObj;
     int leftLife, leftCount;
     void Start()
     {
@@ -31,6 +32,7 @@ public class SaboGameManager : MonoBehaviour
     }
     public void Arrest()
     {
+        arrowObj.SetActive(false);
         StartCoroutine(MovePlayerRespawn());
         foreach (var item in insertedObj) item.BombRemoved();
         insertedObj.Clear();
@@ -52,6 +54,7 @@ public class SaboGameManager : MonoBehaviour
         leftCount -= insertedObj.Count;
         if (leftCount == 0) GameClear();
         insertedObj.Clear();
+        arrowObj.SetActive(false);
     }
     void GameClear()
     {

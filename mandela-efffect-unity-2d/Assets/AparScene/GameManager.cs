@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
     bool isPlaying;
     public int score;
     int nowRan, nowHumanCount = 0;
-    const int aimHumanAmount = 100, nearestHumanSize = 10, humanInLine = 6;
+    const int aimHumanAmount = 30, nearestHumanSize = 10, humanInLine = 6;
     const float widthBetweenHuman = 0.375f;
     void Start()
     {
@@ -69,6 +69,7 @@ public class GameManager : MonoBehaviour
     }
     void GameClear()
     {
+        Debug.Log("GameClear");
         //°ÔÀÓ ½Â¸®½Ã
     }
     public void PullLine()

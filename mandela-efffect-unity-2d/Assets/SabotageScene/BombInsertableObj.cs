@@ -20,6 +20,7 @@ public class BombInsertableObj : MonoBehaviour
         isInserted = true;
         sr.sprite = SaboGameManager.instance.sprite[1];
         SaboGameManager.instance.insertedObj.Add(this);
+        SaboGameManager.instance.arrowObj.SetActive(true);
     }
     public void BombRemoved()
     {

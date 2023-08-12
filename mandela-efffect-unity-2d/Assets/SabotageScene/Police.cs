@@ -12,13 +12,18 @@ public class Police : MonoBehaviour
     Vector3[] movePoses;
     Vector3 moveDir;
     public Transform spriteTrans;
+    public Sprite[] sprite;
+    SpriteRenderer sr;
     private void Start()
     {
         movePoses = GetComponentsInChildren<Transform>()[2..].Select(x => x.position).ToArray();
         moveDir = (movePoses[nowPos] - transform.position);
-        transform.rotation = Quaternion.Euler(0, 0, Vector3.Angle(Vector3.right, movePoses[nowPos] - transform.position) * (moveDir.y < 0 ? -1 : 1));
+        transform.rotation = Quaternion.Euler(0, 0, Vector3.Angle(Vector3.right, moveDir) * (moveDir.y < 0 ? -1 : 1));
         spriteTrans.rotation = Quaternion.identity;
         waitDelay = 0;
+        sr = spriteTrans.GetComponent<SpriteRenderer>();
+        sr.sprite = sprite[moveDir.y > 0.75f ? 1 : moveDir.y < -0.75f ? 2 : 0];
+        sr.flipX = moveDir.x > 0;
     }
     private void Update()
     {
@@ -28,9 +33,11 @@ public class Police : MonoBehaviour
         {
             waitDelay = 1f;
             nowPos = (nowPos + 1) % movePoses.Length;
-            moveDir = (movePoses[nowPos] - transform.position);
-            transform.rotation = Quaternion.Euler(0, 0, Vector3.Angle(Vector3.right, movePoses[nowPos] - transform.position) * (moveDir.y < 0 ? -1 : 1));
+            moveDir = (movePoses[nowPos] - transform.position).normalized;
+            transform.rotation = Quaternion.Euler(0, 0, Vector3.Angle(Vector3.right, moveDir) * (moveDir.y < 0 ? -1 : 1));
             spriteTrans.rotation = Quaternion.identity;
+            sr.sprite = sprite[moveDir.y > 0.75f ? 1 : moveDir.y < -0.75f ? 2 : 0];
+            sr.flipX = moveDir.x > 0;
         }
         transform.position += moveDir.normalized*Time.deltaTime*speed;
     }
