@@ -11,15 +11,33 @@ public class SaboGameManager : MonoBehaviour
     public Sprite[] sprite;
     public GameObject arrowObj;
     int leftLife, leftCount;
+    float timeLeft;
     void Start()
     {
         instance = this;
-        leftLife = 3;
+        leftLife = 2;
         leftCount = FindObjectsByType<BombInsertableObj>(FindObjectsSortMode.None).Length;
         Debug.Log(leftCount);
         Time.timeScale = 0f;
+        timeLeft = 120f;
+        StartCoroutine(UntilPressSpace());
     }
-    public void StartGame() { StartCoroutine(StartTimerActive(3)); }
+    private void Update()
+    {
+        timeLeft -= Time.deltaTime;
+        if (timeLeft < 0) GameOver();
+        SaboTageUIManager.instance.UpdateTimer(timeLeft / 120f);
+    }
+    IEnumerator UntilPressSpace()
+    {
+        var delay = new WaitForSecondsRealtime(0.125f);
+        while (Time.timeScale < 0.5f)
+        {
+            yield return delay;
+            if (Input.GetKey(KeyCode.Space)) StartGame();
+        }
+    }
+    public void StartGame() { SaboTageUIManager.instance.startScreen.SetActive(false); StartCoroutine(StartTimerActive(3)); }
     IEnumerator StartTimerActive(int leftTime)
     {
         WaitForSecondsRealtime waitForSecondsRealtime = new WaitForSecondsRealtime(1f);
@@ -37,16 +55,18 @@ public class SaboGameManager : MonoBehaviour
         foreach (var item in insertedObj) item.BombRemoved();
         insertedObj.Clear();
         SaboTageUIManager.instance.arrestedImage.SetActive(true);
+        SaboPlayerMove.instance.playerCollider.enabled = false;
         if (leftLife <= 0) { GameOver(); return; }
-        
     }
     IEnumerator MovePlayerRespawn()
     {
-        yield return new WaitForSeconds(1f);
-        PlayerMove.instance.gameObject.transform.position = playerRespawn.position;
-        PlayerMove.instance.isArrest = false;
+        yield return new WaitForSeconds(5f);
+        SaboPlayerMove.instance.playerCollider.enabled = true;
+        SaboPlayerMove.instance.gameObject.transform.position = playerRespawn.position;
+        SaboPlayerMove.instance.isArrest = false;
         SaboTageUIManager.instance.arrestedImage.SetActive(false);
-        SaboTageUIManager.instance.UpdateLife(--leftLife - 1);
+        SaboTageUIManager.instance.spaceImage.SetActive(false);
+        SaboTageUIManager.instance.UpdateLife(--leftLife);
     }
     public void FireAllBomb()
     {
@@ -58,7 +78,7 @@ public class SaboGameManager : MonoBehaviour
     }
     void GameClear()
     {
-        Debug.Log("GameClear");
+        GameManager.GetInstance().ReturntoStory(2);
     }
     void GameOver()
     {
@@ -67,6 +87,6 @@ public class SaboGameManager : MonoBehaviour
     }
     public void Restart()
     {
-        SceneManager.LoadScene("Sabotage");
+        SceneManager.LoadScene("Game2_Sabotage");
     }
 }

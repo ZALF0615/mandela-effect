@@ -5,10 +5,10 @@ using System.Collections;
 
 public class SaboTageUIManager : MonoBehaviour
 {
-    public Slider timer;
+    public Slider insertionTimer, timer;
     public TMP_Text startText;
-    public Image timerFillImage, leftHumanImage;
-    public GameObject gameOverScreen, arrestedImage;
+    public Image timerFillImage, leftHumanImage,timerImage;
+    public GameObject gameOverScreen, arrestedImage, spaceImage, startScreen;
     public static SaboTageUIManager instance;
 
     void Start()
@@ -21,13 +21,22 @@ public class SaboTageUIManager : MonoBehaviour
         else startText.text = num != 0 ? num.ToString() : "Start";
     }
     public void UpdateLife(int leftLife)
+    { leftHumanImage.rectTransform.sizeDelta = new Vector2(86 * leftLife, 220); }
+    public void UpdateInsertionTimer(float rate)
     {
-        leftHumanImage.rectTransform.sizeDelta = new Vector2(86 * leftLife, 220);
+        if (rate < 0.1f) spaceImage.SetActive(true);
+        else
+        {
+            insertionTimer.gameObject.SetActive(true);
+            spaceImage.SetActive(false);
+            insertionTimer.value = rate;
+            timerFillImage.color = Color.Lerp(Color.yellow, Color.green, rate);
+        }
     }
     public void UpdateTimer(float rate)
     {
         timer.value = rate;
-        timerFillImage.color = Color.Lerp(Color.yellow, Color.green, rate);
+        timerImage.color = Color.Lerp(Color.yellow, Color.green, rate);
     }
     public void GameOver()
     {
