@@ -489,6 +489,13 @@ public class MessageWindow : MonoBehaviour
 
         }
 
+        if (parts[0] == "ending")// 엔딩
+        {
+            StartCoroutine(Ending());        
+            
+            return false;
+        }
+
         // 점프 (다른 레이블로 이동)
         if (parts[0] == "jump")
         {
@@ -623,6 +630,15 @@ public class MessageWindow : MonoBehaviour
             DisplayNextMessage(); 
         }
     }
+
+    // 엔딩
+
+    private IEnumerator Ending()
+    {
+        yield return new WaitForSeconds(1f);
+        GameManager.LoadScene(GameScene.Title);
+    }
+
 
     // 메시지 표시를 일시 정지하는 코루틴
     private IEnumerator PauseForSeconds(float seconds)
