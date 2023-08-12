@@ -322,8 +322,8 @@ MonoBehaviour:
   gameoOverScreen: {fileID: 949865808}
   startScreen: {fileID: 1842211027}
   clipss:
-  - {fileID: 8300000, guid: 3becec1909f194046945d85ac1077772, type: 3}
-  - {fileID: 8300000, guid: 4e1ff8faed12a475eba9be0e46072269, type: 3}
+  - {fileID: 8300000, guid: 21a663ff4c6da6f41af756fddb1710f7, type: 3}
+  - {fileID: 8300000, guid: cba345b777711b64bbd03f8f362e09c6, type: 3}
   - {fileID: 8300000, guid: 1a10615faf97ae54f9387e5adc346314, type: 3}
   wards:
   - {fileID: 6573495718595757180, guid: 332a1c26eca9ac445894dfbecd87962a, type: 3}

@@ -144,8 +144,7 @@ public class Chapter4_Manager : MonoBehaviour
             }
             else calendarDay++;
             calendarCool = 1;
-            audioS.clip = clipss[0];
-            audioS.Play();
+            
         }
 
         //클리어 조건 충족
@@ -255,15 +254,13 @@ public class Chapter4_Manager : MonoBehaviour
         }
         else if (feverMode)
         {
-            audioS.clip = clipss[1];
-            audioS.loop = true;
+            audioS.clip = clipss[0];
             audioS.Play();
             feverModeTime -= Time.deltaTime;
 
             //피버 모드 종료
             if (feverModeTime <= 0)
             {
-                audioS.loop = false;
                 this.feverMode = false;
                 feverModeCool = 5;
                 feverModeTime = 5;
@@ -289,6 +286,8 @@ public class Chapter4_Manager : MonoBehaviour
             {
                 feverGauge[0].fillAmount += 0.05f;
                 feverGauge[1].fillAmount -= 0.05f;
+                audioS.clip = clipss[1];
+                audioS.Play();
             }
         }
     }
