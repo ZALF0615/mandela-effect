@@ -31,21 +31,12 @@ public class GameManager : MonoBehaviour
     #endregion INSTANCE
 
     public static GameScene currentScene;
-    public static int currentChapterIdx;
+    public static int currentGameIdx;
     public static int currentdialogIdx;
 
     // 미니게임 인덱스 관련
-    public int game_1_start_idx;
-    public int game_1_clear_idx;
 
-    public int game_2_start_idx;
-    public int game_2_clear_idx;
-
-    public int game_3_start_idx;
-    public int game_3_clear_idx;
-
-    public int game_4_start_idx;
-    public int game_4_clear_idx;
+    public int[] game_start_idx = new int[5];
 
     public static void LoadScene(GameScene scene)
     {
@@ -83,7 +74,12 @@ public class GameManager : MonoBehaviour
         }
 
     }
+    public void ReturntoStory(int gameIdx)
+    {
+        currentdialogIdx = game_start_idx[gameIdx];
 
+        LoadScene(GameScene.StoryScene);
+    }
 }
 
 public enum GameScene

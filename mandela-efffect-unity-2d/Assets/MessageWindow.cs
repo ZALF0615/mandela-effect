@@ -94,6 +94,13 @@ public class MessageWindow : MonoBehaviour
         // TouchPad.onClick.AddListener(HandleClick);
         audioSource = gameObject.AddComponent<AudioSource>();
 
+        // 만약 현재 인덱스가 있다면 해당 위치로 이동
+
+        if (GameManager.currentdialogIdx != 0)
+        {
+            currentIndex = GameManager.currentdialogIdx;
+        }
+
         // 첫 번째 메시지 표시
         DisplayNextMessage();
     }
@@ -184,34 +191,12 @@ public class MessageWindow : MonoBehaviour
 
             // 미니게임 인덱스 저장
 
-            if (systemCode.StartsWith("game/"))
+            if (systemCode.StartsWith("game_start/"))
             {
                 string[] codes = systemCode.Split('/');
 
                 int gameIdx = int.Parse(codes[1]);
-                bool isStart = codes[2] == "start";
-
-                var GM = GameManager.GetInstance();
-
-                switch (gameIdx)
-                {
-                    case 1:
-                        if (isStart) { GM.game_1_start_idx = i; }
-                        else { GM.game_1_clear_idx = i; }
-                        break;
-                    case 2:
-                        if (isStart) { GM.game_2_start_idx = i; }
-                        else { GM.game_2_clear_idx = i; }
-                        break;
-                    case 3:
-                        if (isStart) { GM.game_3_start_idx = i; }
-                        else { GM.game_3_clear_idx = i; }
-                        break;
-                    case 4:
-                        if (isStart) { GM.game_4_start_idx = i; }
-                        else { GM.game_4_clear_idx = i; }
-                        break;
-                }
+                GameManager.GetInstance().game_start_idx[gameIdx] = i;
 
                 print($"{systemCode} : {i}");
             }
@@ -472,32 +457,31 @@ public class MessageWindow : MonoBehaviour
 
         // 미니게임 진입
 
-        if(parts[0] == "game")
+        if(parts[0] == "game_start")// 미니게임 진입
         {
-            if(parts[2] == "start") // 미니게임 진입
+            int gameIdx = int.Parse(parts[1]);
+
+            GameManager.currentGameIdx = gameIdx;
+
+            print("game start");
+
+            switch (gameIdx)
             {
-                int gameIdx = int.Parse(parts[1]);
-
-                print("game start");
-
-                switch (gameIdx)
-                {
-                    case 1:
-                        GameManager.LoadScene(GameScene.Game1_Apartheid);
-                        break;
-                    case 2:
-                        GameManager.LoadScene(GameScene.Game2_Sabotage);
-                        break;
-                    case 3:
-                        GameManager.LoadScene(GameScene.Game3_FindMandela);
-                        break;
-                    case 4:
-                        GameManager.LoadScene(GameScene.Game4_Liberation_day);
-                        break;
-                }
-
-                return true;
+                case 1:
+                    GameManager.LoadScene(GameScene.Game1_Apartheid);
+                    break;
+                case 2:
+                    GameManager.LoadScene(GameScene.Game2_Sabotage);
+                    break;
+                case 3:
+                    GameManager.LoadScene(GameScene.Game3_FindMandela);
+                    break;
+                case 4:
+                    GameManager.LoadScene(GameScene.Game4_Liberation_day);
+                    break;
             }
+
+            return true;
 
         }
 
