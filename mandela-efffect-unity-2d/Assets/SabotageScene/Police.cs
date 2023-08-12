@@ -67,6 +67,7 @@ public class Police : MonoBehaviour
         for (int i = 0; i < 35; i++)
         {
             transform.position += moveDir.x < 0 ? Vector3.right : Vector3.left;
+            SaboTageUIManager.instance.spaceImage.SetActive(false);
             yield return delay;
         }
         SaboPlayerMove.instance.transform.parent = null;

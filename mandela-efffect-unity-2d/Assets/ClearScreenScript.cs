@@ -5,6 +5,7 @@ using UnityEngine;
 public class ClearScreenScript : MonoBehaviour
 {
     public GameObject button;
+    public int index;
     private void Start()
     {
         StartCoroutine(ButtonAppear());
@@ -14,10 +15,20 @@ public class ClearScreenScript : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(2f);
         button.SetActive(true);
+        StartCoroutine(UntilPressSpace());
     }
-    public void ReturnToStory(int num)
+    IEnumerator UntilPressSpace()
+    {
+        var delay = new WaitForSecondsRealtime(0.125f);
+        while (Time.timeScale < 0.5f)
+        {
+            yield return delay;
+            if (Input.GetKey(KeyCode.Space)) ReturnToStory();
+        }
+    }
+    public void ReturnToStory()
     {
         Time.timeScale = 1f;
-        GameManager.GetInstance().ReturntoStory(num);
+        GameManager.GetInstance().ReturntoStory(index);
     }
 }

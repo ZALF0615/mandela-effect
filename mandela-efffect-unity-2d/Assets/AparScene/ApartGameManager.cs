@@ -45,7 +45,7 @@ public class ApartGameManager : MonoBehaviour
     }
     IEnumerator UntilPressSpace()
     {
-        var delay = new WaitForSecondsRealtime(0.125f);
+        var delay = new WaitForSecondsRealtime(0.06f);
         while (Time.timeScale < 0.5f)
         {
             yield return delay;

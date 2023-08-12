@@ -32,7 +32,7 @@ public class SaboGameManager : MonoBehaviour
     }
     IEnumerator UntilPressSpace()
     {
-        var delay = new WaitForSecondsRealtime(0.125f);
+        var delay = new WaitForSecondsRealtime(0.06f);
         while (Time.timeScale < 0.5f)
         {
             yield return delay;
@@ -57,6 +57,7 @@ public class SaboGameManager : MonoBehaviour
         foreach (var item in insertedObj) item.BombRemoved();
         insertedObj.Clear();
         SaboTageUIManager.instance.arrestedImage.SetActive(true);
+        SaboTageUIManager.instance.spaceImage.SetActive(false);
         SaboPlayerMove.instance.playerCollider.enabled = false;
         if (leftLife <= 0) { GameOver(); return; }
     }
@@ -67,13 +68,13 @@ public class SaboGameManager : MonoBehaviour
         SaboPlayerMove.instance.gameObject.transform.position = playerRespawn.position;
         SaboPlayerMove.instance.isArrest = false;
         SaboTageUIManager.instance.arrestedImage.SetActive(false);
-        SaboTageUIManager.instance.spaceImage.SetActive(false);
         SaboTageUIManager.instance.UpdateLife(--leftLife);
     }
     public void FireAllBomb()
     {
         foreach (var item in insertedObj) item.BreakObj();
         audio.Play();
+        StartCoroutine(CamShake.Shake());
         leftCount -= insertedObj.Count;
         if (leftCount == 0) GameClear();
         insertedObj.Clear();

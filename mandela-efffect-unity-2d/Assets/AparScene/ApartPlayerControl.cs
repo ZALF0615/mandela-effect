@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class PlayerControlnoBehaviour : MonoBehaviour
 {
-    // Start is called before the first frame update
-    float dir;
-    // Update is called once per frame
+    int nowDir;
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.RightArrow)) ApartGameManager.instance.MoveHuman(1);
-        if (Input.GetKeyDown(KeyCode.LeftArrow)) ApartGameManager.instance.MoveHuman(-1);
+        nowDir = 0;
+        if (Input.GetKeyDown(KeyCode.RightArrow)) { ApartGameManager.instance.MoveHuman(1); nowDir++; }
+        if (Input.GetKeyDown(KeyCode.LeftArrow)) { ApartGameManager.instance.MoveHuman(-1); nowDir--; }
+        Camera.main.transform.position += nowDir * Vector3.right * 0.5f;
+        Camera.main.transform.position = new Vector3(Camera.main.transform.position.x * 0.95f, 0, -10 );
     }
 }
