@@ -815,11 +815,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4990175727215364439, guid: dc663843b030b46418788e9638a5acd7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -20.118324
+      value: -21.2
       objectReference: {fileID: 0}
     - target: {fileID: 4990175727215364439, guid: dc663843b030b46418788e9638a5acd7, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.7096448
+      value: -2.5
       objectReference: {fileID: 0}
     - target: {fileID: 4990175727215364439, guid: dc663843b030b46418788e9638a5acd7, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1557,8 +1557,8 @@ MonoBehaviour:
   playerRespawn: {fileID: 1302890907}
   insertedObj: []
   sprite:
-  - {fileID: 21300000, guid: 7fdcccae62dc8bc42a50d18edab4694b, type: 3}
-  - {fileID: 21300000, guid: 1c07e67b5e217d648a72a346e3ca6ae7, type: 3}
+  - {fileID: 21300000, guid: f9ac598245a6171469f48285c8464d64, type: 3}
+  - {fileID: 21300000, guid: 345a335a682cd5f4381657fc8e4f7017, type: 3}
 --- !u!4 &1007994519
 Transform:
   m_ObjectHideFlags: 0
@@ -2265,7 +2265,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 9ef736e945830f24992f47daa11c2ea2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f0cfced3d27758b4d80c2913f25d933f, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2336,11 +2336,11 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 1}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.0859375, y: 2.2109375}
+    oldSize: {x: 1.6875, y: 4.4375}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -2431,7 +2431,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: b013b3542902e154b903f3be87ba08b2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 23d11ffafd1e6d9409cee6cf27ad7fed, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -2451,7 +2451,7 @@ Transform:
   m_GameObject: {fileID: 1673266850}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -18.46, y: -9.71, z: 0}
+  m_LocalPosition: {x: -18.44, y: -9.76, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2494,7 +2494,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.0859375, y: 2.2109375}
+    oldSize: {x: 1.6875, y: 4.4375}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -2537,8 +2537,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -721, y: -352}
-  m_SizeDelta: {x: 108, y: 110}
+  m_AnchoredPosition: {x: -755.9, y: -353.5}
+  m_SizeDelta: {x: 172, y: 220}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1783205005
 MonoBehaviour:
@@ -2560,7 +2560,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b013b3542902e154b903f3be87ba08b2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 23d11ffafd1e6d9409cee6cf27ad7fed, type: 3}
   m_Type: 2
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3029,7 +3029,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2, y: 2}
+    oldSize: {x: 1.6041666, y: 2.4791667}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -3079,7 +3079,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 011c769732f36be4b99efea6d4cf09cc, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 856513094a8bfd947b883da02c907899, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -3206,7 +3206,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_TargetDisplay: 0
 --- !u!1001 &1504773862541982502
 PrefabInstance:

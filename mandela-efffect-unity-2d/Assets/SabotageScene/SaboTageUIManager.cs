@@ -22,7 +22,7 @@ public class SaboTageUIManager : MonoBehaviour
     }
     public void UpdateLife(int leftLife)
     {
-        leftHumanImage.rectTransform.sizeDelta = new Vector2(54 * leftLife, 110);
+        leftHumanImage.rectTransform.sizeDelta = new Vector2(86 * leftLife, 220);
     }
     public void UpdateTimer(float rate)
     {

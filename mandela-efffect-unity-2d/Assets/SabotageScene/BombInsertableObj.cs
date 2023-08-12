@@ -27,8 +27,7 @@ public class BombInsertableObj : MonoBehaviour
         sr.sprite = SaboGameManager.instance.sprite[0];
         leftTime = 3f;
     }
-    public void BreakObj() { Destroy(gameObject); }
-    // Start is called before the first frame update
+    public void BreakObj() { GetComponent<Animator>().enabled = true; }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (leftTime < 0) return;
@@ -43,7 +42,7 @@ public class BombInsertableObj : MonoBehaviour
     {
         if (isInserted) return;
         if (collision.gameObject.tag == "Player") {
-            leftTime = PlayerMove.instance.isHoldSpace ? leftTime -= Time.deltaTime : 3f;
+            leftTime = PlayerMove.instance.isHoldSpace && !PlayerMove.instance.isArrest ? leftTime -= Time.deltaTime : 3f;
             SaboTageUIManager.instance.UpdateTimer((3f - leftTime) / 3f);
             if (leftTime < 0) { BombInserted(); SaboTageUIManager.instance.timer.gameObject.SetActive(false); }
         }
