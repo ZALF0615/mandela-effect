@@ -53,7 +53,6 @@ public class ApartGameManager : MonoBehaviour
         }
     }
     public void StartGame() { ApartPlayerUI.instance.gameStartScreen.SetActive(false); StartCoroutine(StartTimerActive(3)); ApartPlayerUI.instance.UpdateScore(aimHumanAmount); }
-
     void SpawnHuman(int pos)
     {
         nowRan = Random.Range(0, 2);

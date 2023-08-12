@@ -15,6 +15,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Game1_Apartheid.unity
     guid: d2ababcdbd8afa948b88ebd2756f5311
   - enabled: 1
-    path: Assets/Scenes/Game2_Sabotage.unity
+    path: Assets/Scenes/Game2_Sabotage_before.unity
     guid: 17e8f6219945c2e42816da0195c87e1f
   m_configObjects: {}
