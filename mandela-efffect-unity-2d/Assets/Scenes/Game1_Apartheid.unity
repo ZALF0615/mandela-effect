@@ -813,7 +813,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: f2ea27035520ffb43977485bc9a20e74, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -1974,6 +1974,18 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1336451825589707786, guid: b5153a145ac75dc43a1e82883dbe0979, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1336451825589707786, guid: b5153a145ac75dc43a1e82883dbe0979, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 680352842612561221}
+    - target: {fileID: 1336451825589707786, guid: b5153a145ac75dc43a1e82883dbe0979, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ReturnToStory
+      objectReference: {fileID: 0}
+    - target: {fileID: 1336451825589707786, guid: b5153a145ac75dc43a1e82883dbe0979, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
       value: 1
       objectReference: {fileID: 0}
@@ -2066,6 +2078,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b5153a145ac75dc43a1e82883dbe0979, type: 3}
+--- !u!114 &680352842612561221 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2932556597146432551, guid: b5153a145ac75dc43a1e82883dbe0979, type: 3}
+  m_PrefabInstance: {fileID: 680352842612561220}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1740734447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fedde632901c55d4fad9a7c36634dc03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
