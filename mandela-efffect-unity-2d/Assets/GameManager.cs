@@ -38,6 +38,10 @@ public class GameManager : MonoBehaviour
 
     public int[] game_start_idx = new int[5];
 
+    // 타이틀 화면에서 바로 게임을 시작했는지 여부 저장하는 변수
+
+    public bool isDirectGame;
+
     public static void LoadScene(GameScene scene)
     {
         string sceneName = string.Empty;
@@ -74,11 +78,37 @@ public class GameManager : MonoBehaviour
         }
 
     }
+    public static void LoadGameScene(int chapterIdx)
+    {
+        switch (chapterIdx)
+        {
+            case 1:
+                LoadScene(GameScene.Game1_Apartheid);
+                break;
+            case 2:
+                LoadScene(GameScene.Game2_Sabotage);
+                break;
+            case 3:
+                LoadScene(GameScene.Game3_FindMandela);
+                break;
+            case 4:
+                LoadScene(GameScene.Game4_Liberation_day);
+                break;
+        }
+    }
     public void ReturntoStory(int gameIdx)
     {
-        currentdialogIdx = game_start_idx[gameIdx];
+        if (isDirectGame) // 타이틀로 돌아가기
+        {
+            LoadScene(GameScene.Title);
+            GameManager.GetInstance().isDirectGame = false;
+        }
+        else
+        {
+            currentdialogIdx = game_start_idx[gameIdx];
+            LoadScene(GameScene.StoryScene);
+        }
 
-        LoadScene(GameScene.StoryScene);
     }
 }
 

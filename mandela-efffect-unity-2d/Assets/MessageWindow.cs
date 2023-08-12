@@ -31,8 +31,12 @@ public class MessageWindow : MonoBehaviour
     public Button TouchPad;
     public GameObject CursorMarker;
 
+    // Flase
+
+    public Animator flashAnim;
+
     // 오디오 소스들
-    private AudioSource audioSource;
+    public AudioSource BGMPlayer;
     public AudioSource SEPlayer;
 
     // 캐릭터 이미지들과 위치 좌표들
@@ -57,7 +61,7 @@ public class MessageWindow : MonoBehaviour
     // public GameObject loadingModal;
 
 
-
+    public GameObject frontObj;
 
     public void Init()
     {
@@ -92,7 +96,6 @@ public class MessageWindow : MonoBehaviour
 
         // 패널 클릭 이벤트 리스너 설정
         // TouchPad.onClick.AddListener(HandleClick);
-        audioSource = gameObject.AddComponent<AudioSource>();
 
         // 만약 현재 인덱스가 있다면 해당 위치로 이동
 
@@ -100,6 +103,7 @@ public class MessageWindow : MonoBehaviour
         {
             currentIndex = GameManager.currentdialogIdx;
         }
+
 
         // 첫 번째 메시지 표시
         DisplayNextMessage();
@@ -235,12 +239,15 @@ public class MessageWindow : MonoBehaviour
                 {
                     currentSkipBranch = 0; // 스킵 중지
                     DisplayNextMessage();
+
                     break;
                 }
 
                 // print($"skip: {nextMessage.Message}");
             }
         }
+
+        frontObj.SetActive(true);
 
         if (isDisplaying) return;
         if (isPaused) return;
@@ -264,7 +271,7 @@ public class MessageWindow : MonoBehaviour
 
 
     public bool wasnone = false;
-
+    string beforeBGM;
     // 메시지 표시 코루틴
     private IEnumerator DisplayMessageCoroutine(MessageData data)
     {
@@ -350,6 +357,29 @@ public class MessageWindow : MonoBehaviour
             SEPlayer.PlayOneShot(clip);
         }
 
+        // BGM 변경
+
+        if (beforeBGM != data.BGM)
+        {
+            if (data.BGM.ToLower() == "stop")
+            {
+                BGMPlayer.Stop();
+            }
+            else
+            {
+                AudioClip bgm = Resources.Load<AudioClip>($"BGM/{data.BGM}");
+                if (bgm)
+                {
+                    BGMPlayer.clip = bgm;
+                    BGMPlayer.Play();
+                    beforeBGM = data.BGM;
+                }
+                else
+                {
+                    BGMPlayer.Stop();
+                }
+            }
+        }
 
         // 캐릭터 이미지 업데이트
         for (int i = 0; i < characterImages.Length; i++)
@@ -483,6 +513,20 @@ public class MessageWindow : MonoBehaviour
 
             return true;
 
+        }
+
+        if(parts[0] == "flash")
+        {
+            flashAnim.SetTrigger("flash");
+            StartCoroutine(PauseForSeconds(1.0f));
+            return false;
+        }
+
+        if (parts[0] == "ending")// 엔딩
+        {
+            StartCoroutine(Ending());        
+            
+            return false;
         }
 
         // 점프 (다른 레이블로 이동)
@@ -619,6 +663,15 @@ public class MessageWindow : MonoBehaviour
             DisplayNextMessage(); 
         }
     }
+
+    // 엔딩
+
+    private IEnumerator Ending()
+    {
+        yield return new WaitForSeconds(1f);
+        GameManager.LoadScene(GameScene.Title);
+    }
+
 
     // 메시지 표시를 일시 정지하는 코루틴
     private IEnumerator PauseForSeconds(float seconds)

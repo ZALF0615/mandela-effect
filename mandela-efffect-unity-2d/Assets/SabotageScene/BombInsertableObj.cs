@@ -6,11 +6,13 @@ public class BombInsertableObj : MonoBehaviour
 {
     
     SpriteRenderer sr;
+    AudioSource audio;
     bool isInserted;
     float leftTime;
     private void Start()
     {
         sr = GetComponent<SpriteRenderer>();
+        audio = GetComponent<AudioSource>();    
         isInserted = false;
         leftTime = 3f;
     }
@@ -21,6 +23,7 @@ public class BombInsertableObj : MonoBehaviour
         sr.sprite = SaboGameManager.instance.sprite[1];
         SaboGameManager.instance.insertedObj.Add(this);
         SaboGameManager.instance.arrowObj.SetActive(true);
+        audio.Play();
     }
     public void BombRemoved()
     {
@@ -32,20 +35,21 @@ public class BombInsertableObj : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (leftTime < 0) return;
-        if (collision.gameObject.tag == "Player") { SaboTageUIManager.instance.timer.gameObject.SetActive(true); leftTime = 3f; }
+        if (collision.gameObject.tag == "Player") { SaboTageUIManager.instance.spaceImage.gameObject.SetActive(true); leftTime = 3f; }
     }
     private void OnCollisionExit2D(Collision2D collision)
     {
         if (leftTime < 0) return;
-        if (collision.gameObject.tag == "Player") { SaboTageUIManager.instance.timer.gameObject.SetActive(false); leftTime = 3f; }
+        if (collision.gameObject.tag == "Player") { SaboTageUIManager.instance.insertionTimer.gameObject.SetActive(false); SaboTageUIManager.instance.spaceImage.gameObject.SetActive(false); leftTime = 3f; }
     }
     private void OnCollisionStay2D(Collision2D collision)
     {
         if (isInserted) return;
         if (collision.gameObject.tag == "Player") {
-            leftTime = PlayerMove.instance.isHoldSpace && !PlayerMove.instance.isArrest ? leftTime -= Time.deltaTime : 3f;
-            SaboTageUIManager.instance.UpdateTimer((3f - leftTime) / 3f);
-            if (leftTime < 0) { BombInserted(); SaboTageUIManager.instance.timer.gameObject.SetActive(false); }
+            leftTime = SaboPlayerMove.instance.isHoldSpace && !SaboPlayerMove.instance.isArrest ? leftTime -= Time.deltaTime : 3f;
+            SaboPlayerMove.instance.canMove = leftTime == 3f;
+            SaboTageUIManager.instance.UpdateInsertionTimer((3f - leftTime) / 3f);
+            if (leftTime < 0) { BombInserted(); SaboTageUIManager.instance.insertionTimer.gameObject.SetActive(false); SaboPlayerMove.instance.canMove = true; }
         }
     }
 }

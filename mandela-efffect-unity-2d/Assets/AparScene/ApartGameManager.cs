@@ -13,12 +13,13 @@ public class ApartGameManager : MonoBehaviour
     GameObject nowHuman;
     SpriteRenderer sr;
     AudioSource audioSource;
+    public AudioClip[] sounds;
     float leftTime, maxLeftTime;
     string nowName;
     bool isPlaying;
     public int score;
     int nowRan, nowHumanCount = 0;
-    const int aimHumanAmount = 30, nearestHumanSize = 10, humanInLine = 6;
+    const int aimHumanAmount = 50, nearestHumanSize = 10, humanInLine = 6;
     const float widthBetweenHuman = 0.375f;
     void Start()
     {
@@ -40,8 +41,18 @@ public class ApartGameManager : MonoBehaviour
         maxLeftTime = leftTime = 3f;
         isPlaying = false;
         audioSource = GetComponent<AudioSource>();
+        StartCoroutine(UntilPressSpace());
     }
-    public void StartGame() { PlayerUI.instance.gameStartScreen.SetActive(false); StartCoroutine(StartTimerActive(3)); }
+    IEnumerator UntilPressSpace()
+    {
+        var delay = new WaitForSecondsRealtime(0.06f);
+        while (Time.timeScale < 0.5f)
+        {
+            yield return delay;
+            if (Input.GetKey(KeyCode.Space)) StartGame();
+        }
+    }
+    public void StartGame() { ApartPlayerUI.instance.gameStartScreen.SetActive(false); StartCoroutine(StartTimerActive(3)); ApartPlayerUI.instance.UpdateScore(aimHumanAmount); }
     void SpawnHuman(int pos)
     {
         nowRan = Random.Range(0, 2);
@@ -60,17 +71,17 @@ public class ApartGameManager : MonoBehaviour
     {
         leftTime -= Time.deltaTime;
         if (leftTime < 0) GameOver();
-        PlayerUI.instance.UpdateTimer(leftTime / maxLeftTime);
+        ApartPlayerUI.instance.UpdateTimer(leftTime / maxLeftTime);
     }
     void GameOver()
     {
-        PlayerUI.instance.GameOver();
+        ApartPlayerUI.instance.GameOver();
         isPlaying = false;
     }
     void GameClear()
     {
-        Debug.Log("GameClear");
-        //게임 승리시
+        ApartPlayerUI.instance.gameClearScreen.SetActive(true);
+        isPlaying = false;
     }
     public void PullLine()
     {
@@ -83,19 +94,15 @@ public class ApartGameManager : MonoBehaviour
     public void MoveHuman(int dir)
     {
         if (!isPlaying) return;//게임중 아니면 조작 불가 처리
-        audioSource.Play();
         nowHuman = humanLine.Dequeue();//큐에서 제거
         nowName = nowHuman.name;
         (nowName == "black" ? blackHuman : whiteHuman).Enqueue(nowHuman);//게임 오브젝트가 돌아갈 큐에 넣기
-        if (dir == 1 && nowName == "black" || dir == -1 && nowName == "white") { leftTime = leftTime + 1 > maxLeftTime ? maxLeftTime : leftTime + 1; score++; }//분류 성공
-        else { leftTime -= 0.5f; }//분류 실패
-        PlayerUI.instance.UpdateScore(score);
+        if (dir == 1 && nowName == "black" || dir == -1 && nowName == "white") { leftTime = leftTime - (0.02f*score) + 1.1f > maxLeftTime ? maxLeftTime : leftTime + -(0.02f * score) + 1.1f; score++; audioSource.clip = sounds[0]; }//분류 성공
+        else { leftTime -= 0.5f; audioSource.clip = sounds[1]; }//분류 실패
+        audioSource.Play();
+        ApartPlayerUI.instance.UpdateScore(aimHumanAmount - score);
         StartCoroutine(Leave(nowHuman, dir));
-        if(score >= aimHumanAmount)
-        {
-            GameClear();
-            return;
-        }
+        if (score >= aimHumanAmount) { Time.timeScale = 0; GameClear(); return; }
         SpawnHuman(humanLine.Count);
     }
     IEnumerator StartTimerActive(int leftTime)
@@ -104,7 +111,7 @@ public class ApartGameManager : MonoBehaviour
         while (leftTime-- >= 0)
         {
             yield return waitForSecondsRealtime;
-            PlayerUI.instance.StartTimer(leftTime);
+            ApartPlayerUI.instance.StartTimer(leftTime);
         }
         Time.timeScale = 1f;
         isPlaying = true;
@@ -124,6 +131,6 @@ public class ApartGameManager : MonoBehaviour
     }
     public void Restart()
     {
-        SceneManager.LoadScene("Apartheid");
+        SceneManager.LoadScene("Game1_Apartheid");
     }
 }
