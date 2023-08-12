@@ -4,9 +4,9 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
+public class ApartGameManager : MonoBehaviour
 {
-    public static GameManager instance;
+    public static ApartGameManager instance;
     public Sprite[] humanSprites;
     public GameObject[] humans;
     Queue<GameObject> humanLine = new Queue<GameObject>(), blackHuman = new Queue<GameObject>(), whiteHuman = new Queue<GameObject>();
@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
     bool isPlaying;
     public int score;
     int nowRan, nowHumanCount = 0;
-    const int aimHumanAmount = 30, nearestHumanSize = 10, humanInLine = 6;
+    const int aimHumanAmount = 20, nearestHumanSize = 10, humanInLine = 6;
     const float widthBetweenHuman = 0.375f;
     void Start()
     {
@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour
         isPlaying = false;
         audioSource = GetComponent<AudioSource>();
     }
-    public void StartGame() { PlayerUI.instance.gameStartScreen.SetActive(false); StartCoroutine(StartTimerActive(3)); }
+    public void StartGame() { ApartPlayerUI.instance.gameStartScreen.SetActive(false); StartCoroutine(StartTimerActive(3)); }
     void SpawnHuman(int pos)
     {
         nowRan = Random.Range(0, 2);
@@ -60,11 +60,11 @@ public class GameManager : MonoBehaviour
     {
         leftTime -= Time.deltaTime;
         if (leftTime < 0) GameOver();
-        PlayerUI.instance.UpdateTimer(leftTime / maxLeftTime);
+        ApartPlayerUI.instance.UpdateTimer(leftTime / maxLeftTime);
     }
     void GameOver()
     {
-        PlayerUI.instance.GameOver();
+        ApartPlayerUI.instance.GameOver();
         isPlaying = false;
     }
     void GameClear()
@@ -89,13 +89,9 @@ public class GameManager : MonoBehaviour
         (nowName == "black" ? blackHuman : whiteHuman).Enqueue(nowHuman);//게임 오브젝트가 돌아갈 큐에 넣기
         if (dir == 1 && nowName == "black" || dir == -1 && nowName == "white") { leftTime = leftTime + 1 > maxLeftTime ? maxLeftTime : leftTime + 1; score++; }//분류 성공
         else { leftTime -= 0.5f; }//분류 실패
-        PlayerUI.instance.UpdateScore(score);
+        ApartPlayerUI.instance.UpdateScore(score);
         StartCoroutine(Leave(nowHuman, dir));
-        if(score >= aimHumanAmount)
-        {
-            GameClear();
-            return;
-        }
+        if (score >= aimHumanAmount) { Time.timeScale = 0; GameClear(); return; }
         SpawnHuman(humanLine.Count);
     }
     IEnumerator StartTimerActive(int leftTime)
@@ -104,7 +100,7 @@ public class GameManager : MonoBehaviour
         while (leftTime-- >= 0)
         {
             yield return waitForSecondsRealtime;
-            PlayerUI.instance.StartTimer(leftTime);
+            ApartPlayerUI.instance.StartTimer(leftTime);
         }
         Time.timeScale = 1f;
         isPlaying = true;

@@ -13,8 +13,8 @@ public class PlayerControl : MonoBehaviour
         {
             
             dir = Input.GetAxis("Horizontal");
-            if (Input.GetAxis("Horizontal") > 0) GameManager.instance.MoveHuman(1);
-            if (Input.GetAxis("Horizontal") < 0) GameManager.instance.MoveHuman(-1);
+            if (Input.GetAxis("Horizontal") > 0) ApartGameManager.instance.MoveHuman(1);
+            if (Input.GetAxis("Horizontal") < 0) ApartGameManager.instance.MoveHuman(-1);
 
         }
     }

@@ -2,13 +2,13 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerUI : MonoBehaviour
+public class ApartPlayerUI : MonoBehaviour
 {
     public TMP_Text scoreText, startText;
     public Slider timer;
     public Image timerFillImage;
     public GameObject gameOverScreen, gameStartScreen;
-    public static PlayerUI instance;
+    public static ApartPlayerUI instance;
     
     void Start()
     {
