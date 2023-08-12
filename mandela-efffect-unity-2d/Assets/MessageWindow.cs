@@ -53,19 +53,6 @@ public class MessageWindow : MonoBehaviour
     private bool isPaused = false;
     private string remainingMessage;
 
-    // 미니게임 인덱스 관련
-    int game_1_start_idx;
-    int game_1_clear_idx;
-
-    int game_2_start_idx;
-    int game_2_clear_idx;
-
-    int game_3_start_idx;
-    int game_3_clear_idx;
-
-    int game_4_start_idx;
-    int game_4_clear_idx;
-
     // loading
     // public GameObject loadingModal;
 
@@ -204,23 +191,25 @@ public class MessageWindow : MonoBehaviour
                 int gameIdx = int.Parse(codes[1]);
                 bool isStart = codes[2] == "start";
 
+                var GM = GameManager.GetInstance();
+
                 switch (gameIdx)
                 {
                     case 1:
-                        if (isStart) { game_1_start_idx = i; }
-                        else { game_1_clear_idx = i; }
+                        if (isStart) { GM.game_1_start_idx = i; }
+                        else { GM.game_1_clear_idx = i; }
                         break;
                     case 2:
-                        if (isStart) { game_2_start_idx = i; }
-                        else { game_2_clear_idx = i; }
+                        if (isStart) { GM.game_2_start_idx = i; }
+                        else { GM.game_2_clear_idx = i; }
                         break;
                     case 3:
-                        if (isStart) { game_3_start_idx = i; }
-                        else { game_3_clear_idx = i; }
+                        if (isStart) { GM.game_3_start_idx = i; }
+                        else { GM.game_3_clear_idx = i; }
                         break;
                     case 4:
-                        if (isStart) { game_4_start_idx = i; }
-                        else { game_4_clear_idx = i; }
+                        if (isStart) { GM.game_4_start_idx = i; }
+                        else { GM.game_4_clear_idx = i; }
                         break;
                 }
 
@@ -480,6 +469,37 @@ public class MessageWindow : MonoBehaviour
     bool ProcessSystemCode(string systemCode, string message)
     {
         var parts = systemCode.Split('/');
+
+        // 미니게임 진입
+
+        if(parts[0] == "game")
+        {
+            if(parts[2] == "start") // 미니게임 진입
+            {
+                int gameIdx = int.Parse(parts[1]);
+
+                print("game start");
+
+                switch (gameIdx)
+                {
+                    case 1:
+                        GameManager.LoadScene(GameScene.Game1_Apartheid);
+                        break;
+                    case 2:
+                        GameManager.LoadScene(GameScene.Game2_Sabotage);
+                        break;
+                    case 3:
+                        GameManager.LoadScene(GameScene.Game3_FindMandela);
+                        break;
+                    case 4:
+                        GameManager.LoadScene(GameScene.Game4_Liberation_day);
+                        break;
+                }
+
+                return true;
+            }
+
+        }
 
         // 점프 (다른 레이블로 이동)
         if (parts[0] == "jump")

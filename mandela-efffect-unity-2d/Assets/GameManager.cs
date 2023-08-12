@@ -34,6 +34,19 @@ public class GameManager : MonoBehaviour
     public static int currentChapterIdx;
     public static int currentdialogIdx;
 
+    // 미니게임 인덱스 관련
+    public int game_1_start_idx;
+    public int game_1_clear_idx;
+
+    public int game_2_start_idx;
+    public int game_2_clear_idx;
+
+    public int game_3_start_idx;
+    public int game_3_clear_idx;
+
+    public int game_4_start_idx;
+    public int game_4_clear_idx;
+
     public static void LoadScene(GameScene scene)
     {
         string sceneName = string.Empty;
