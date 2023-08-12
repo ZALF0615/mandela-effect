@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     Queue<GameObject> humanLine = new Queue<GameObject>(), blackHuman = new Queue<GameObject>(), whiteHuman = new Queue<GameObject>();
     GameObject nowHuman;
     SpriteRenderer sr;
+    AudioSource audioSource;
     float leftTime, maxLeftTime;
     string nowName;
     bool isPlaying;
@@ -38,8 +39,9 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0f;
         maxLeftTime = leftTime = 3f;
         isPlaying = false;
-        StartCoroutine(StartTimerActive(3));
+        audioSource = GetComponent<AudioSource>();
     }
+    public void StartGame() { PlayerUI.instance.gameStartScreen.SetActive(false); StartCoroutine(StartTimerActive(3)); }
     void SpawnHuman(int pos)
     {
         nowRan = Random.Range(0, 2);
@@ -62,9 +64,12 @@ public class GameManager : MonoBehaviour
     }
     void GameOver()
     {
-        if (score >= aimHumanAmount) { }//게임 승리시 화면
         PlayerUI.instance.GameOver();
         isPlaying = false;
+    }
+    void GameClear()
+    {
+        //게임 승리시
     }
     public void PullLine()
     {
@@ -77,6 +82,7 @@ public class GameManager : MonoBehaviour
     public void MoveHuman(int dir)
     {
         if (!isPlaying) return;//게임중 아니면 조작 불가 처리
+        audioSource.Play();
         nowHuman = humanLine.Dequeue();//큐에서 제거
         nowName = nowHuman.name;
         (nowName == "black" ? blackHuman : whiteHuman).Enqueue(nowHuman);//게임 오브젝트가 돌아갈 큐에 넣기
@@ -86,7 +92,7 @@ public class GameManager : MonoBehaviour
         StartCoroutine(Leave(nowHuman, dir));
         if(score >= aimHumanAmount)
         {
-            GameOver();
+            GameClear();
             return;
         }
         SpawnHuman(humanLine.Count);
@@ -106,7 +112,7 @@ public class GameManager : MonoBehaviour
     {
         PullLine();
         h.GetComponent<SpriteRenderer>().sprite = humanSprites[h.name == "black" ? 2 : 3];
-        h.transform.localScale = new Vector3(dir, 1, 1) * 0.15f * nearestHumanSize;
+        h.transform.localScale = new Vector3(dir, 1, 1) * 0.125f * nearestHumanSize;
         WaitForSeconds delay = new(0.08f);
         for (int i = 0; i < 12; i++)
         {

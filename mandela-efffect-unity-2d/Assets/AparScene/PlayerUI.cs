@@ -7,7 +7,7 @@ public class PlayerUI : MonoBehaviour
     public TMP_Text scoreText, startText;
     public Slider timer;
     public Image timerFillImage;
-    public GameObject gameOverScreen;
+    public GameObject gameOverScreen, gameStartScreen;
     public static PlayerUI instance;
     
     void Start()
@@ -16,14 +16,8 @@ public class PlayerUI : MonoBehaviour
     }
     public void UpdateTimer(float rate)
     {
-        if(rate < 0.125f || rate > 0.875f) timer.gameObject.SetActive(false);
-        else
-        {
-            if(!timer.gameObject.activeSelf) timer.gameObject.SetActive(true);
-            timer.value = rate;
-            timerFillImage.color = Color.Lerp(Color.red, Color.green, rate);
-        }
-        
+        timer.value = rate;
+        timerFillImage.color = Color.Lerp(Color.red, Color.green, rate);
     }
     public void UpdateScore(int score)
     {
