@@ -31,8 +31,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 8483124390144477920}
   - {fileID: 1855654957682840822}
+  - {fileID: 8483124390144477920}
   - {fileID: 8916006091917443297}
   - {fileID: 138767430217804458}
   - {fileID: 3169019371523977851}
@@ -83,7 +83,7 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 2.52, y: 0}

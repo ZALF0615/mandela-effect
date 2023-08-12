@@ -6,6 +6,7 @@ public class PlayerMove : MonoBehaviour
 {
     public static PlayerMove instance;
     public float speed = 3f;
+    public bool isHoldSpace { get { return Input.GetKey(KeyCode.Space); } }
     Rigidbody2D rigid;
     void Start()
     {
@@ -15,9 +16,5 @@ public class PlayerMove : MonoBehaviour
     void Update()
     {
         rigid.velocity = (Vector3.right * Input.GetAxis("Horizontal") + Vector3.up * Input.GetAxis("Vertical")).normalized * speed;
-    }
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag == "Respawn") SaboGameManager.instance.FireAllBomb();
     }
 }

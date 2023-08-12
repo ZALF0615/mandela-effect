@@ -14,7 +14,7 @@ public class Police : MonoBehaviour
     public Transform spriteTrans;
     private void Start()
     {
-        movePoses = GetComponentsInChildren<Transform>()[3..].Select(x => x.position).ToArray();
+        movePoses = GetComponentsInChildren<Transform>()[2..].Select(x => x.position).ToArray();
         moveDir = (movePoses[nowPos] - transform.position);
         transform.rotation = Quaternion.Euler(0, 0, Vector3.Angle(Vector3.right, movePoses[nowPos] - transform.position) * (moveDir.y < 0 ? -1 : 1));
         spriteTrans.rotation = Quaternion.identity;
@@ -34,10 +34,10 @@ public class Police : MonoBehaviour
         }
         transform.position += moveDir.normalized*Time.deltaTime*speed;
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log(collision.gameObject.name);
-        if (collision.gameObject.tag == "Player") SaboGameManager.instance.Arrest();
+        if (collision.gameObject.tag == "Player" && PlayerMove.instance.transform.position.y > -5) SaboGameManager.instance.Arrest();
+
     }
 }
     
