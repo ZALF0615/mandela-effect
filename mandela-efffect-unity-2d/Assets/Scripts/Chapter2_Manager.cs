@@ -1,10 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Threading;
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Chapter2_Manager : MonoBehaviour
 {
@@ -32,7 +30,15 @@ public class Chapter2_Manager : MonoBehaviour
 
     GameObject resultImages;
 
-    //UnityEngine.Color flash;
+    SpriteRenderer flash;
+    float flashFloat;
+
+    List<bool> resultBoolList;
+    Image[] resultCheckImageArray;
+    public Image[] checkIconArray;
+    Image[] resultImageArray;
+    public Image[] resultRandomFailImageArray;
+    public Image[] resultSuccessImageArray;
 
     void Start()
     {
@@ -52,7 +58,12 @@ public class Chapter2_Manager : MonoBehaviour
         close_Eye_Cool = 3;
         close_Eye_Time = 3;
         close_Eye_Bool = true;
-        //flash = GameObject.Find("Flash").GetComponent<SpriteRenderer>().color;
+        flash = GameObject.Find("Flash").GetComponent<SpriteRenderer>();
+        resultBoolList = new List<bool>();
+        resultCheckImageArray = new Image[3] { resultImages.transform.Find("ResultIcon1").GetComponent<Image>(),
+            resultImages.transform.Find("ResultIcon2").GetComponent<Image>(), resultImages.transform.Find("ResultIcon3").GetComponent<Image>()};
+        resultImageArray = new Image[3] { resultImages.transform.Find("ResultImage1").GetComponent<Image>(),
+            resultImages.transform.Find("ResultImage2").GetComponent<Image>(), resultImages.transform.Find("ResultImage3").GetComponent<Image>()};
     }
 
     void Update()
@@ -60,12 +71,29 @@ public class Chapter2_Manager : MonoBehaviour
         //현재 촬영 표시
         captureNumText.text = "현재 " + chaptureNum + "번째 촬영";
 
-        //if (flash.a > 0) flash.a -= 0.1f * Time.deltaTime;
+        if(flashFloat > 0) flashFloat -= 0.5f * Time.deltaTime;
+        flash.color = new UnityEngine.Color(255, 255, 255, flashFloat);
 
         // 4번째 촬영 일시 결과창으로
         if (chaptureNum == 4)
         {
             resultImages.SetActive(true);
+            for (int i = 0; i < 3; i++)
+            {
+                if (resultBoolList[i])
+                {
+                    resultCheckImageArray[i].sprite = checkIconArray[0].sprite;
+                    resultImageArray[i].sprite = resultSuccessImageArray[i].sprite;
+                }
+                else if (!resultBoolList[i])
+                {
+                    resultCheckImageArray[i].sprite = checkIconArray[1].sprite;
+                    if(i == 0) resultImageArray[i].sprite = resultRandomFailImageArray[Random.Range(0, 2)].sprite;
+                    else if (i == 1) resultImageArray[i].sprite = resultRandomFailImageArray[Random.Range(2, 4)].sprite;
+                    else if (i == 2) resultImageArray[i].sprite = resultRandomFailImageArray[4].sprite;
+                }
+            }
+            chaptureNum++;
         }
         else
         {
@@ -89,42 +117,41 @@ public class Chapter2_Manager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 cameraSound.Play(); // 셔터음 재생
-                //flash.a = 1;
+                flashFloat = 1;
 
                 //사진 위치 계산
-                var capturePointX = math.abs(cameraAngleObject.transform.position.x) - math.abs(prisonerMandela.transform.position.x);
-                var capturePointY = math.abs(cameraAngleObject.transform.position.y) - math.abs(prisonerMandela.transform.position.y);
+                var capturePoint = Vector2.Distance(prisonerMandela.transform.position, cameraAngleObject.transform.position);
 
                 if (phaseNum == 3)
                 {
-                    //성공
-                    if (capturePointX < 1 && capturePointX > -1 && capturePointY < 1.5f && capturePointY > -1.5f && close_Eye_Bool)
+                    if (capturePoint < 1)
                     {
-                        Debug.Log(capturePointX + " " + capturePointY + " " + close_Eye_Bool.ToString());
+                        Debug.Log(capturePoint + " " + close_Eye_Bool.ToString());
                         chaptureSuccess++;
                         Debug.Log("성공");
+                        resultBoolList.Add(true);
                     }
-                    //실패
                     else
                     {
-                        Debug.Log(capturePointX + " " + capturePointY + close_Eye_Bool.ToString());
+                        Debug.Log(capturePoint + " " + close_Eye_Bool.ToString());
                         Debug.Log("실패");
+                        resultBoolList.Add(false);
                     }
                 }
                 else
                 {
-                    //성공
-                    if (capturePointX < 1 && capturePointX > -1 && capturePointY < 1 && capturePointY > -1)
+                    if (capturePoint < 1)
                     {
-                        Debug.Log(capturePointX + " " + capturePointY);
+                        Debug.Log(capturePoint);
                         chaptureSuccess++;
                         Debug.Log("성공");
+                        resultBoolList.Add(true);
                     }
-                    //실패
                     else
                     {
-                        Debug.Log(capturePointX + " " + capturePointY);
+                        Debug.Log(capturePoint);
                         Debug.Log("실패");
+                        resultBoolList.Add(false);
                     }
                 }
                 phaseNum++; // 페이즈 +1
@@ -167,5 +194,10 @@ public class Chapter2_Manager : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    public void NextSceneButton()
+    {
+        SceneManager.LoadScene("Game4_Liberation_day");
     }
 }
