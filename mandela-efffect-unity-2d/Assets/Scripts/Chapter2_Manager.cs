@@ -69,7 +69,7 @@ public class Chapter2_Manager : MonoBehaviour
     void Update()
     {
         //현재 촬영 표시
-        captureNumText.text = "현재 " + chaptureNum + "번째 촬영";
+        captureNumText.text = $"{chaptureNum}/3";
 
         if(flashFloat > 0) flashFloat -= 0.5f * Time.deltaTime;
         flash.color = new UnityEngine.Color(255, 255, 255, flashFloat);
@@ -100,11 +100,13 @@ public class Chapter2_Manager : MonoBehaviour
             //페이즈에 따른 변화
             GamePhase(phaseNum);
 
+            var mul = 7f;
+
             //카메라 앵글 키보드 이동
-            if (Input.GetKey(KeyCode.UpArrow)) cameraAngleObject.transform.Translate(Vector2.up * 0.1f);
-            else if (Input.GetKey(KeyCode.DownArrow)) cameraAngleObject.transform.Translate(Vector2.down * 0.1f);
-            if (Input.GetKey(KeyCode.LeftArrow)) cameraAngleObject.transform.Translate(Vector2.left * 0.1f);
-            else if (Input.GetKey(KeyCode.RightArrow)) cameraAngleObject.transform.Translate(Vector2.right * 0.1f);
+            if (Input.GetKey(KeyCode.UpArrow)) cameraAngleObject.transform.Translate(Vector2.up * Time.deltaTime * mul);
+            else if (Input.GetKey(KeyCode.DownArrow)) cameraAngleObject.transform.Translate(Vector2.down * Time.deltaTime * mul);
+            if (Input.GetKey(KeyCode.LeftArrow)) cameraAngleObject.transform.Translate(Vector2.left * Time.deltaTime * mul);
+            else if (Input.GetKey(KeyCode.RightArrow)) cameraAngleObject.transform.Translate(Vector2.right * Time.deltaTime * mul);
 
             cameraAngleObject.transform.position = new Vector3(Mathf.Clamp(cameraAngleObject.transform.position.x, -15, 15),
                 Mathf.Clamp(cameraAngleObject.transform.position.y, -1.5f, 1.5f), 0);

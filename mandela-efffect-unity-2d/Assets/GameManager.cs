@@ -98,9 +98,17 @@ public class GameManager : MonoBehaviour
     }
     public void ReturntoStory(int gameIdx)
     {
-        currentdialogIdx = game_start_idx[gameIdx];
+        if (isDirectGame) // 타이틀로 돌아가기
+        {
+            LoadScene(GameScene.Title);
+            GameManager.GetInstance().isDirectGame = false;
+        }
+        else
+        {
+            currentdialogIdx = game_start_idx[gameIdx];
+            LoadScene(GameScene.StoryScene);
+        }
 
-        LoadScene(GameScene.StoryScene);
     }
 }
 
