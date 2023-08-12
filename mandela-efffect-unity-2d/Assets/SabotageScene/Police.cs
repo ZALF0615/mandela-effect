@@ -36,7 +36,10 @@ public class Police : MonoBehaviour
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Player" && PlayerMove.instance.transform.position.y > -5) SaboGameManager.instance.Arrest();
+        if (collision.gameObject.tag == "Player" && PlayerMove.instance.transform.position.y > -5 && !PlayerMove.instance.isArrest) { 
+            PlayerMove.instance.isArrest = true;
+            SaboGameManager.instance.Arrest();
+        }
 
     }
 }

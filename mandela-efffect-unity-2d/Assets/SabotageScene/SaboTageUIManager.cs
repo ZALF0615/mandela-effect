@@ -1,17 +1,24 @@
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine;
+using System.Collections;
 
 public class SaboTageUIManager : MonoBehaviour
 {
     public Slider timer;
+    public TMP_Text startText;
     public Image timerFillImage, leftHumanImage;
-    public GameObject gameOverScreen;
+    public GameObject gameOverScreen, arrestedImage;
     public static SaboTageUIManager instance;
 
     void Start()
     {
         instance = this;
+    }
+    public void StartTimer(int num)
+    {
+        if (num == -1) startText.text = "";
+        else startText.text = num != 0 ? num.ToString() : "Start";
     }
     public void UpdateLife(int leftLife)
     {

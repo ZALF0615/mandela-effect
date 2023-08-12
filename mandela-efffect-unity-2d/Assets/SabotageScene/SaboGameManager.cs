@@ -16,15 +16,35 @@ public class SaboGameManager : MonoBehaviour
         leftLife = 3;
         leftCount = FindObjectsByType<BombInsertableObj>(FindObjectsSortMode.None).Length;
         Debug.Log(leftCount);
+        Time.timeScale = 0f;
+    }
+    public void StartGame() { StartCoroutine(StartTimerActive(3)); }
+    IEnumerator StartTimerActive(int leftTime)
+    {
+        WaitForSecondsRealtime waitForSecondsRealtime = new WaitForSecondsRealtime(1f);
+        while (leftTime-- >= 0)
+        {
+            yield return waitForSecondsRealtime;
+            SaboTageUIManager.instance.StartTimer(leftTime);
+        }
         Time.timeScale = 1f;
     }
     public void Arrest()
     {
+        StartCoroutine(MovePlayerRespawn());
         foreach (var item in insertedObj) item.BombRemoved();
         insertedObj.Clear();
-        SaboTageUIManager.instance.UpdateLife(--leftLife - 1);
+        SaboTageUIManager.instance.arrestedImage.SetActive(true);
         if (leftLife <= 0) { GameOver(); return; }
+        
+    }
+    IEnumerator MovePlayerRespawn()
+    {
+        yield return new WaitForSeconds(1f);
         PlayerMove.instance.gameObject.transform.position = playerRespawn.position;
+        PlayerMove.instance.isArrest = false;
+        SaboTageUIManager.instance.arrestedImage.SetActive(false);
+        SaboTageUIManager.instance.UpdateLife(--leftLife - 1);
     }
     public void FireAllBomb()
     {
