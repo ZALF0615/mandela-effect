@@ -15,6 +15,12 @@ EditorBuildSettings:
     path: Assets/Scenes/Game1_Apartheid.unity
     guid: d2ababcdbd8afa948b88ebd2756f5311
   - enabled: 1
-    path: Assets/Scenes/Game2_Sabotage_before.unity
-    guid: 17e8f6219945c2e42816da0195c87e1f
+    path: Assets/Scenes/Game2_Sabotage.unity
+    guid: 06941cafdcca9a24c8f1bca6d645fb39
+  - enabled: 1
+    path: Assets/Scenes/Game3_FindMandela.unity
+    guid: 02b3dd74176b4ac40ad72d68178d70f2
+  - enabled: 1
+    path: Assets/Scenes/Game4_Liberation_day.unity
+    guid: 7f45967a24e5ced43870a4ad3bdc800e
   m_configObjects: {}
