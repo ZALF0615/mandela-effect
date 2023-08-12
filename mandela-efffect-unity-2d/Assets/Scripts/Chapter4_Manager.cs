@@ -1,14 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Chapter4_Manager : MonoBehaviour
 {
+    public GameObject clearScreen, gameoOverScreen, startScreen;
+    public AudioClip[] clipss;
+    AudioSource audioS;
     GameObject canvas;
     public GameObject[] wards;
     GameObject[] gameWards;
-    
+    public Text text;
     //피버모드 관련
     public bool feverMode;
     float feverModeCool;
@@ -40,6 +44,7 @@ public class Chapter4_Manager : MonoBehaviour
     
     void Start()
     {
+        audioS = GetComponent<AudioSource>();
         canvas = GameObject.Find("Canvas");
         gameWards = new GameObject[5];
         //피버모드 관련
@@ -66,14 +71,43 @@ public class Chapter4_Manager : MonoBehaviour
         calendarMonth = 12;
         calendarDay = 1;
         calendarCool = 1;
+        Time.timeScale = 0f;
+        StartCoroutine(UntilPressSpace());
     }
-
-
+    IEnumerator UntilPressSpace()
+    {
+        var delay = new WaitForSecondsRealtime(0.06f);
+        while (Time.timeScale < 0.5f)
+        {
+            yield return delay;
+            if (Input.GetKey(KeyCode.Space)) break;
+        }
+        startScreen.SetActive(false);
+        delay = new WaitForSecondsRealtime(1f);
+        for (int i = 0; i < 3; i++)
+        {
+            text.text = 3 - i + "" ;
+            yield return delay;
+        }
+        text.text = "";
+        StartGame();
+    }
+    public void StartGame()
+    {
+        Time.timeScale = 1f;
+        
+    }
+        public void ReStart()
+    {
+        SceneManager.LoadScene("Game4_Liberation_day");
+    }
     void Update()
     {
         //패배 조건 충족
         if (feverGauge[0].fillAmount <= 0)
         {
+
+            gameoOverScreen.SetActive(true);
             return;
         }
 
@@ -110,10 +144,20 @@ public class Chapter4_Manager : MonoBehaviour
             }
             else calendarDay++;
             calendarCool = 1;
+            
         }
 
         //클리어 조건 충족
-        if (calendarMonth == 2 && calendarDay == 11) return;
+        if (calendarMonth == 2 && calendarDay == 11)
+        {
+            for (int i = 0; i < gameWards.Length; i++)
+            {
+                Destroy(gameWards[i]);
+                gameWards[i] = null;
+            }
+            clearScreen.SetActive(true);
+            return;
+        }
 
         //만델라, 대통령, 적 실시간 이미지 변경
         if (feverGauge[0].fillAmount > 0.75f)
@@ -167,6 +211,13 @@ public class Chapter4_Manager : MonoBehaviour
 
             string inputWard = null;
 
+            if (Input.anyKeyDown)
+            {
+                audioS.clip = clipss[2];
+                audioS.Play();
+            }
+            
+
             if (Input.GetKeyDown(KeyCode.UpArrow)) inputWard = "Up";
             else if (Input.GetKeyDown(KeyCode.DownArrow)) inputWard = "Down";
             else if (Input.GetKeyDown(KeyCode.LeftArrow)) inputWard = "Left";
@@ -203,6 +254,8 @@ public class Chapter4_Manager : MonoBehaviour
         }
         else if (feverMode)
         {
+            audioS.clip = clipss[0];
+            audioS.Play();
             feverModeTime -= Time.deltaTime;
 
             //피버 모드 종료
@@ -233,6 +286,8 @@ public class Chapter4_Manager : MonoBehaviour
             {
                 feverGauge[0].fillAmount += 0.05f;
                 feverGauge[1].fillAmount -= 0.05f;
+                audioS.clip = clipss[1];
+                audioS.Play();
             }
         }
     }

@@ -39,7 +39,9 @@ public class Chapter2_Manager : MonoBehaviour
     Image[] resultImageArray;
     public Image[] resultRandomFailImageArray;
     public Image[] resultSuccessImageArray;
-
+    public GameObject startScreen, clearScreen, gameOverScreen;
+    public Text text;
+    bool canTake, allTrue;
     void Start()
     {
         camera = GameObject.Find("Main Camera").GetComponent<Camera>();
@@ -64,8 +66,33 @@ public class Chapter2_Manager : MonoBehaviour
             resultImages.transform.Find("ResultIcon2").GetComponent<Image>(), resultImages.transform.Find("ResultIcon3").GetComponent<Image>()};
         resultImageArray = new Image[3] { resultImages.transform.Find("ResultImage1").GetComponent<Image>(),
             resultImages.transform.Find("ResultImage2").GetComponent<Image>(), resultImages.transform.Find("ResultImage3").GetComponent<Image>()};
+        Time.timeScale = 0f;
+        StartCoroutine(UntilPressSpace());
     }
-
+    IEnumerator UntilPressSpace()
+    {
+        canTake = false;
+        var delay = new WaitForSecondsRealtime(0.06f);
+        while (Time.timeScale < 0.5f)
+        {
+            yield return delay;
+            if (Input.GetKey(KeyCode.Space)) break;
+        }
+        startScreen.SetActive(false);
+        delay = new WaitForSecondsRealtime(1f);
+        for (int i = 0; i < 3; i++)
+        {
+            text.text = 3 - i + "";
+            yield return delay;
+        }
+        text.text = "";
+        StartGame();
+    }
+    public void StartGame()
+    {
+        Time.timeScale = 1f;
+        canTake = true;
+    }
     void Update()
     {
         //현재 촬영 표시
@@ -77,16 +104,20 @@ public class Chapter2_Manager : MonoBehaviour
         // 4번째 촬영 일시 결과창으로
         if (chaptureNum == 4)
         {
+            allTrue = true;
             resultImages.SetActive(true);
             for (int i = 0; i < 3; i++)
             {
+                 
                 if (resultBoolList[i])
                 {
+                    
                     resultCheckImageArray[i].sprite = checkIconArray[0].sprite;
                     resultImageArray[i].sprite = resultSuccessImageArray[i].sprite;
                 }
                 else if (!resultBoolList[i])
                 {
+                    if (allTrue) allTrue = false;
                     resultCheckImageArray[i].sprite = checkIconArray[1].sprite;
                     if(i == 0) resultImageArray[i].sprite = resultRandomFailImageArray[Random.Range(0, 2)].sprite;
                     else if (i == 1) resultImageArray[i].sprite = resultRandomFailImageArray[Random.Range(2, 4)].sprite;
@@ -94,6 +125,7 @@ public class Chapter2_Manager : MonoBehaviour
                 }
             }
             chaptureNum++;
+            
         }
         else
         {
@@ -116,7 +148,7 @@ public class Chapter2_Manager : MonoBehaviour
             camera.transform.position = new Vector3(Mathf.Clamp(camera.transform.position.x, -15, 15), Mathf.Clamp(camera.transform.position.y, -1.5f, 1.5f), -10);
 
             //스페이스바 사진 촬영
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space) && canTake)
             {
                 cameraSound.Play(); // 셔터음 재생
                 flashFloat = 1;
@@ -200,6 +232,11 @@ public class Chapter2_Manager : MonoBehaviour
 
     public void NextSceneButton()
     {
-        SceneManager.LoadScene("Game4_Liberation_day");
+        if (allTrue) { clearScreen.SetActive(true); }
+        else { gameOverScreen.SetActive(true); }
+    }
+    public void ReStart()
+    {
+        SceneManager.LoadScene("Game3_FindMandela");
     }
 }
