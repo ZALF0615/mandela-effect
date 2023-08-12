@@ -79,7 +79,7 @@ public class ApartGameManager : MonoBehaviour
     }
     void GameClear()
     {
-        GameManager.GetInstance().ReturntoStory(1);
+        ApartPlayerUI.instance.gameClearScreen.SetActive(true);
         //게임 승리시
     }
     public void PullLine()

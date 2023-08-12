@@ -8,7 +8,7 @@ public class SaboTageUIManager : MonoBehaviour
     public Slider insertionTimer, timer;
     public TMP_Text startText;
     public Image timerFillImage, leftHumanImage,timerImage;
-    public GameObject gameOverScreen, arrestedImage, spaceImage, startScreen;
+    public GameObject gameOverScreen, arrestedImage, spaceImage, startScreen, gameClearScreen;
     public static SaboTageUIManager instance;
 
     void Start()

@@ -7,7 +7,7 @@ public class ApartPlayerUI : MonoBehaviour
     public TMP_Text scoreText, startText;
     public Slider timer;
     public Image timerFillImage;
-    public GameObject gameOverScreen, gameStartScreen;
+    public GameObject gameOverScreen, gameStartScreen, gameClearScreen;
     public static ApartPlayerUI instance;
     
     void Start()

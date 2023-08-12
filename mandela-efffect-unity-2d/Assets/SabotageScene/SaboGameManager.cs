@@ -78,7 +78,7 @@ public class SaboGameManager : MonoBehaviour
     }
     void GameClear()
     {
-        GameManager.GetInstance().ReturntoStory(2);
+        SaboTageUIManager.instance.gameClearScreen.SetActive(true);
     }
     void GameOver()
     {
