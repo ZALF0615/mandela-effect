@@ -22,4 +22,8 @@ public class SaboTageUIManager : MonoBehaviour
         timer.value = rate;
         timerFillImage.color = Color.Lerp(Color.yellow, Color.green, rate);
     }
+    public void GameOver()
+    {
+        gameOverScreen.SetActive(true);
+    }
 }
