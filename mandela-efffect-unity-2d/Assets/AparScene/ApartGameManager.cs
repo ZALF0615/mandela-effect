@@ -81,7 +81,7 @@ public class ApartGameManager : MonoBehaviour
     void GameClear()
     {
         ApartPlayerUI.instance.gameClearScreen.SetActive(true);
-        //게임 승리시
+        isPlaying = false;
     }
     public void PullLine()
     {
