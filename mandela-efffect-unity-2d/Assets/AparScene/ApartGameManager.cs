@@ -4,9 +4,9 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
+public class ApartGameManager : MonoBehaviour
 {
-    public static GameManager instance;
+    public static ApartGameManager instance;
     public Sprite[] humanSprites;
     public GameObject[] humans;
     Queue<GameObject> humanLine = new Queue<GameObject>(), blackHuman = new Queue<GameObject>(), whiteHuman = new Queue<GameObject>();
