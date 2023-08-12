@@ -57,7 +57,7 @@ public class MessageWindow : MonoBehaviour
     // public GameObject loadingModal;
 
 
-
+    public GameObject frontObj;
 
     public void Init()
     {
@@ -100,6 +100,7 @@ public class MessageWindow : MonoBehaviour
         {
             currentIndex = GameManager.currentdialogIdx;
         }
+
 
         // 첫 번째 메시지 표시
         DisplayNextMessage();
@@ -235,12 +236,15 @@ public class MessageWindow : MonoBehaviour
                 {
                     currentSkipBranch = 0; // 스킵 중지
                     DisplayNextMessage();
+
                     break;
                 }
 
                 // print($"skip: {nextMessage.Message}");
             }
         }
+
+        frontObj.SetActive(true);
 
         if (isDisplaying) return;
         if (isPaused) return;
