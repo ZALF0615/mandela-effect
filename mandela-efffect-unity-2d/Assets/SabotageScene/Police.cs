@@ -51,6 +51,7 @@ public class Police : MonoBehaviour
         if (collision.gameObject.tag == "Player" && SaboPlayerMove.instance.transform.position.y > -9f && !SaboPlayerMove.instance.isArrest) { 
             SaboPlayerMove.instance.isArrest = true;
             SaboGameManager.instance.Arrest();
+            GetComponent<AudioSource>().Play();
             StartCoroutine(BringPlayer());
         }
     }

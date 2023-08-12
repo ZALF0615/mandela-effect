@@ -13,6 +13,7 @@ public class ApartGameManager : MonoBehaviour
     GameObject nowHuman;
     SpriteRenderer sr;
     AudioSource audioSource;
+    public AudioClip[] sounds;
     float leftTime, maxLeftTime;
     string nowName;
     bool isPlaying;
@@ -93,12 +94,12 @@ public class ApartGameManager : MonoBehaviour
     public void MoveHuman(int dir)
     {
         if (!isPlaying) return;//게임중 아니면 조작 불가 처리
-        audioSource.Play();
         nowHuman = humanLine.Dequeue();//큐에서 제거
         nowName = nowHuman.name;
         (nowName == "black" ? blackHuman : whiteHuman).Enqueue(nowHuman);//게임 오브젝트가 돌아갈 큐에 넣기
-        if (dir == 1 && nowName == "black" || dir == -1 && nowName == "white") { leftTime = leftTime - (0.02f*score) + 1.1f > maxLeftTime ? maxLeftTime : leftTime + -(0.02f * score) + 1.1f; score++; }//분류 성공
-        else { leftTime -= 0.5f; }//분류 실패
+        if (dir == 1 && nowName == "black" || dir == -1 && nowName == "white") { leftTime = leftTime - (0.02f*score) + 1.1f > maxLeftTime ? maxLeftTime : leftTime + -(0.02f * score) + 1.1f; score++; audioSource.clip = sounds[0]; }//분류 성공
+        else { leftTime -= 0.5f; audioSource.clip = sounds[1]; }//분류 실패
+        audioSource.Play();
         ApartPlayerUI.instance.UpdateScore(aimHumanAmount - score);
         StartCoroutine(Leave(nowHuman, dir));
         if (score >= aimHumanAmount) { Time.timeScale = 0; GameClear(); return; }

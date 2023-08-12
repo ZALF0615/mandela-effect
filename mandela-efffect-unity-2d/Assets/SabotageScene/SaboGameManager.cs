@@ -10,6 +10,7 @@ public class SaboGameManager : MonoBehaviour
     public List<BombInsertableObj> insertedObj = new List<BombInsertableObj>();
     public Sprite[] sprite;
     public GameObject arrowObj;
+    AudioSource audio;
     int leftLife, leftCount;
     float timeLeft;
     void Start()
@@ -21,6 +22,7 @@ public class SaboGameManager : MonoBehaviour
         Time.timeScale = 0f;
         timeLeft = 120f;
         StartCoroutine(UntilPressSpace());
+        audio = gameObject.GetComponent<AudioSource>();
     }
     private void Update()
     {
@@ -71,6 +73,7 @@ public class SaboGameManager : MonoBehaviour
     public void FireAllBomb()
     {
         foreach (var item in insertedObj) item.BreakObj();
+        audio.Play();
         leftCount -= insertedObj.Count;
         if (leftCount == 0) GameClear();
         insertedObj.Clear();

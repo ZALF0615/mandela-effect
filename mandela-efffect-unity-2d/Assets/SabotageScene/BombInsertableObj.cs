@@ -6,11 +6,13 @@ public class BombInsertableObj : MonoBehaviour
 {
     
     SpriteRenderer sr;
+    AudioSource audio;
     bool isInserted;
     float leftTime;
     private void Start()
     {
         sr = GetComponent<SpriteRenderer>();
+        audio = GetComponent<AudioSource>();    
         isInserted = false;
         leftTime = 3f;
     }
@@ -21,6 +23,7 @@ public class BombInsertableObj : MonoBehaviour
         sr.sprite = SaboGameManager.instance.sprite[1];
         SaboGameManager.instance.insertedObj.Add(this);
         SaboGameManager.instance.arrowObj.SetActive(true);
+        audio.Play();
     }
     public void BombRemoved()
     {
